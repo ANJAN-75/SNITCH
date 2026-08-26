@@ -19,3 +19,11 @@ export const registerValidation=[
 
     validateRequest
 ]
+
+export const loginValidator=[
+    body("email").isEmail().withMessage("must be provide a valid email"),
+    body("password").trim().notEmpty().withMessage("must provide a password"),
+
+    validateRequest
+    
+]
