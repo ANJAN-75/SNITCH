@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router";
-
+import { useAuth } from "../hook/useAuth";
 export default function RegisterPage() {
+  const { handleRegister } = useAuth();
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
@@ -23,11 +24,17 @@ export default function RegisterPage() {
     setFormData((prev) => ({ ...prev, isSeller: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Register data:", formData);
-    // TODO: connect to backend API
-    // Expected payload: { fullname, email, password, contact, isSeller }
+    await handleRegister({
+      email: formData.email,
+      fullname: formData.fullname,
+      password: formData.password,
+      contact: formData.contact,
+      isSeller: false,
+    });
+    
   };
 
   return (
@@ -230,7 +237,9 @@ export default function RegisterPage() {
                     <div>
                       <p
                         className={`text-xs font-semibold tracking-wider uppercase ${
-                          !formData.isSeller ? "text-[#e6c364]" : "text-[#99907e]"
+                          !formData.isSeller
+                            ? "text-[#e6c364]"
+                            : "text-[#99907e]"
                         }`}
                       >
                         Buyer
@@ -274,7 +283,9 @@ export default function RegisterPage() {
                     <div>
                       <p
                         className={`text-xs font-semibold tracking-wider uppercase ${
-                          formData.isSeller ? "text-[#e6c364]" : "text-[#99907e]"
+                          formData.isSeller
+                            ? "text-[#e6c364]"
+                            : "text-[#99907e]"
                         }`}
                       >
                         Seller
