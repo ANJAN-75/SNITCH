@@ -87,3 +87,36 @@ export const loginController = async (req, res) => {
     });
   }
 };
+
+/**
+ * @description using this route we get user details from google 
+ */
+
+export const  googleCallback=async(req,res)=>{
+  const {id,emails,displayName,phots}=req.user
+  
+  const email=emails[0].value
+  
+  let user=await UserModel.findOne({email})
+
+  if(!user){
+    user=UserModel.create({
+      email:email,
+      fullname:displayName,
+      googleId:id
+    })
+  }
+
+  const token=jwt.sign(
+    {id:user._id},
+    config.JWT_SECRET,
+    {expiresIn:"3d"}
+
+  )
+  res.cookie("token",token)
+
+  res.redirect("http://localhost:5173/")
+
+
+  
+}

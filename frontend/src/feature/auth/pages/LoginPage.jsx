@@ -2,10 +2,11 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { useAuth } from "../hook/useAuth";
 import { useNavigate } from "react-router";
+import ContinueWithGoogle from "../components/ContinueWithGoogle.jsx";
 
 export default function LoginPage() {
-  const navigate=useNavigate()
-  const {handleLogin} =useAuth()
+  const navigate = useNavigate();
+  const { handleLogin } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,14 +17,14 @@ export default function LoginPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Login data:", formData);
     await handleLogin({
-      email:formData.email,
-      password:formData.password
-    })
-    navigate("/")
+      email: formData.email,
+      password: formData.password,
+    });
+    navigate("/");
   };
 
   return (
@@ -150,6 +151,7 @@ export default function LoginPage() {
               >
                 Login
               </button>
+              <ContinueWithGoogle />
             </form>
 
             {/* Divider */}
@@ -158,6 +160,7 @@ export default function LoginPage() {
               <span className="text-[#4d4637] text-[10px] tracking-[0.2em] uppercase">
                 or
               </span>
+
               <div className="flex-1 h-px bg-[#4d4637]" />
             </div>
 
