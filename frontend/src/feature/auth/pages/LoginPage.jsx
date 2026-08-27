@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import { useAuth } from "../hook/useAuth";
+import { useNavigate } from "react-router";
 
 export default function LoginPage() {
+  const navigate=useNavigate()
+  const {handleLogin} =useAuth()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -12,10 +16,14 @@ export default function LoginPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log("Login data:", formData);
-    // TODO: connect to backend API
+    await handleLogin({
+      email:formData.email,
+      password:formData.password
+    })
+    navigate("/")
   };
 
   return (

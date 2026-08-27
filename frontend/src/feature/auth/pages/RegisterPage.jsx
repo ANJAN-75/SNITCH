@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { useAuth } from "../hook/useAuth";
+import { useNavigate } from "react-router";
 export default function RegisterPage() {
+  const navigate=useNavigate()
   const { handleRegister } = useAuth();
   const [formData, setFormData] = useState({
     fullname: "",
@@ -34,6 +36,7 @@ export default function RegisterPage() {
       contact: formData.contact,
       isSeller: false,
     });
+    navigate("/login")
     
   };
 

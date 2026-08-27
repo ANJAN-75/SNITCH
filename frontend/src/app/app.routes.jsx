@@ -11,4 +11,8 @@ export const routes = createBrowserRouter([
     path: "/register",
     element: <RegisterPage />,
   },
-]);
+  {
+    path:"/",
+    element:<h1>HEllo snitch</h1>
+  }
+]);
