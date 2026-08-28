@@ -13,7 +13,7 @@ function validateRequest(req,res,next){
 export const registerValidation=[
     body('email').isEmail().withMessage("plese provide a valid email"),
     body('fullname').trim().notEmpty().withMessage("name is required"),
-    body('password').trim().isLength({min:6}).withMessage("min 6 digit password required "),
+    body('password').if((value,{req})=>!req.body.googleId).trim().isLength({min:6}).withMessage("min 6 digit password required "),
     body('contact').matches(/^\d{10}$/).withMessage("contact must be a 10 digit number"),
     body('isSeller').isBoolean().withMessage("isSeller must be a bollean value"),
 

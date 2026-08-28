@@ -93,6 +93,7 @@ export const loginController = async (req, res) => {
  */
 
 export const  googleCallback=async(req,res)=>{
+  console.log(req.user)
   const {id,emails,displayName,phots}=req.user
   
   const email=emails[0].value
@@ -100,7 +101,7 @@ export const  googleCallback=async(req,res)=>{
   let user=await UserModel.findOne({email})
 
   if(!user){
-    user=UserModel.create({
+    user= await UserModel.create({
       email:email,
       fullname:displayName,
       googleId:id
