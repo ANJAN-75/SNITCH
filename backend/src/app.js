@@ -1,5 +1,6 @@
 import express from "express"
 import authRoute from "./routes/auth.route.js"
+import productRoute from "./routes/product.route.js"
 import cookieParser from "cookie-parser"
 import cors from "cors"
 import morgan from "morgan"
@@ -31,4 +32,5 @@ app.use(
 );
 //use router
 app.use("/api/auth",authRoute)
+app.use("/api/product",productRoute)
 export default app;
