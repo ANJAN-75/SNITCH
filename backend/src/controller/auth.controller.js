@@ -40,7 +40,7 @@ export const registerController = async (req, res) => {
       password,
       contact,
       fullname,
-      isSeller: isSeller ? "seller" : "buyer",
+      role: isSeller ? "seller" : "buyer",
     });
 
     const userdata = user.toObject();

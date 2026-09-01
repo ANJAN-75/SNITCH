@@ -2,16 +2,19 @@ import ImageKit, { toFile } from "@imagekit/nodejs";
 import { config } from "../config/config.js";
 
 const client = new ImageKit({
-  privateKey: config.IMAGEKIT_PRIVATE_KEY,
+  privateKey:config.IMAGEKIT_PRIVATE_KEY,
 });
 
-export async function uploadFile({ buffer, filename, folder = "snitch" }) {
+export async function uploadFile({ buffer, fileName, folder = "snitch" }) {
   try {
-    return await client.files.upload({
+    const result= await client.files.upload({
       file: await toFile(buffer),
-      filename,
+      fileName,
       folder,
     });
+    
+    return result.url
+
   } catch (error) {
     throw new Error(`File upload failed: ${error.message}`);
   }

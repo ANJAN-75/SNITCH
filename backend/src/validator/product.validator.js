@@ -25,8 +25,7 @@ export const poductValidation = [
   body("price.currency")
     .isIn("USD", "EUR", "INR", "GBP", "JPY")
     .withMessage("price currency must be required for product"),
-    body("imgages.url")
-    .notEmpty().withMessage("you must be provide a valid url for images"),
+   
 
     validation
 ];
