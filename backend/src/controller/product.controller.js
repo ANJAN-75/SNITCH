@@ -48,7 +48,7 @@ export async function showProductController(req,res){
     })
   }
   user =await UserModel.findById(id)
-  console.log(user)
+  
 
   if(user.role!=="seller"){
     return res.status(403).json({
