@@ -1,5 +1,6 @@
 import { url } from "inspector";
 import ProductModel from "../models/product.model.js";
+import UserModel from "../models/user.model.js"
 import { uploadFile } from "../services/storage.service.js";
 
 export async function createProductController(req, res) {
@@ -33,5 +34,38 @@ console.log("FILES:", req.files);
     product,
     success:true
 
+  })
+}
+
+
+export async function showProductController(req,res){
+  let user=req.user
+  const id=user.id
+  console.log(id)
+  if(!id){
+    return res.status(400).json({
+      message:"No id found"
+    })
+  }
+  user =await UserModel.findById(id)
+  console.log(user)
+
+  if(user.role!=="seller"){
+    return res.status(403).json({
+      message:"you dont have access for this route"
+    })
+  }
+
+  const product=await ProductModel.find({seller:id})
+
+  if(!product){
+    return res.status(204).json({
+      message:"no product found"
+    })
+  }
+  return res.status(200).json({
+    message:"seller product featch successfully ",
+    sucess:true,
+    product
   })
 }
