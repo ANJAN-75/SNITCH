@@ -1,4 +1,4 @@
-import { url } from "inspector";
+
 import ProductModel from "../models/product.model.js";
 import UserModel from "../models/user.model.js"
 import { uploadFile } from "../services/storage.service.js";
@@ -10,7 +10,7 @@ console.log("FILES:", req.files);
 
   const seller = req.user;
 
-  const images=await Promise.all(req.files.map(async (file)=>{
+   const images=await Promise.all((req.file || []).map(async (file)=>{
     const url= await uploadFile({
         buffer:file.buffer,
         fileName:file.originalname

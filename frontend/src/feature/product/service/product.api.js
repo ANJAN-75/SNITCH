@@ -5,13 +5,9 @@ const productApiInstence=axios.create({
     withCredentials:true
 })
 
-export const createProduct=async({
-    title, description, amount, currency,images
-})=>{
+export const createProduct=async(fromdata)=>{
     try{
-        const response=await productApiInstence.post("/create",{
-        title, description, amount, currency,images
-    })
+        const response=await productApiInstence.post("/create",fromdata)
 
     return response.data
     }catch(error){

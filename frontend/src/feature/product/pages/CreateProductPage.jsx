@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import { Link, useNavigate } from "react-router";
-import { createProduct } from "../service/product.api";
+import { useProduct } from "../hook/useProduct";
 
 /* ─────────────────────────────────────────────────────────────────
    SNITCH Design System tokens (from Google Stitch project)
@@ -9,6 +9,7 @@ const CURRENCIES = ["USD", "EUR", "GBP", "INR"];
 
 export default function CreateProductPage() {
   const navigate = useNavigate();
+  const { handleCreateProduct, loading, error, setError } = useProduct();
 
   /* ── Form state ── */
   const [form, setForm] = useState({
@@ -19,8 +20,6 @@ export default function CreateProductPage() {
   });
   const [images, setImages] = useState([]); // { file, preview }[]
   const [dragging, setDragging] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const fileInputRef = useRef(null);
 
   /* ── Handlers ── */
@@ -48,6 +47,7 @@ export default function CreateProductPage() {
       return prev.filter((_, i) => i !== idx);
     });
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,23 +58,27 @@ export default function CreateProductPage() {
       return setError("Please enter a valid amount.");
 
     try {
-      setLoading(true);
+      const formData=new FormData()
+  formData.append("title", form.title);
+formData.append("description", form.description);
+formData.append("amount", Number(form.amount));
+formData.append("currency", form.currency);
+images.forEach((image) => {
+  formData.append("images", image.file);
+});
+console.log("FILES BEFORE REQUEST:", images);
       const imagePreviews = images.map((img) => img.preview);
-      await createProduct({
-        title: form.title,
-        description: form.description,
-        amount: Number(form.amount),
-        currency: form.currency,
-        images: imagePreviews,
-      });
-      navigate("/products");
-    } catch (err) {
-      setError(
-        err?.response?.data?.message ||
-          "Something went wrong. Please try again."
+      await handleCreateProduct(
+        // title: form.title,
+        // description: form.description,
+        // amount: Number(form.amount),
+        // currency: form.currency,
+        // images: images,
+        formData
       );
-    } finally {
-      setLoading(false);
+      navigate("/products");
+    } catch(err) {
+      console.error('Failed to create product', err);
     }
   };
 
